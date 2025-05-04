@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Todo List</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #acb6e5);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 50px 20px;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+      overflow: hidden;
+      max-width: 900px;
+      width: 100%;
+      transform: scale(1);
+      transition: transform 0.3s ease-in-out;
+    }
+    
+    .container:hover {
+      transform: scale(1.02);
+    }
+
+    .image-section {
+      flex: 1;
+      min-height: 400px;
+      background-image: url('/check-list.png');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.8);
+      transition: filter 0.3s ease;
+    }
+
+    .container:hover .image-section {
+      filter: brightness(1);
+    }
+
+    .todo-section {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      max-height: 500px;
+      transition: background-color 0.3s ease;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      color: #2c3e50;
+      font-size: 2.5rem;
+      text-shadow: 1px 1px 2px #ccc;
+      transition: color 0.3s ease;
+    }
+
+    .input-group {
+      display: flex;
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 8px rgba(52, 152, 219, 0.7);
+    }
+
+    #button {
+      padding: 12px 20px;
+      margin-left: 10px;
+      background-color: #3498db;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #button:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 20px;
+      padding: 0;
+      width: 100%;
+      max-width: 500px;
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 10px;  /* To avoid cutting off the scroll */
+    }
+
+    li {
+      background-color: #fff;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.3s ease;
+    }
+
+    li:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+
+    li.done {
+      text-decoration: line-through;
+      color: gray;
+      opacity: 0.6;
+    }
+
+    li button {
+      padding: 8px 14px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+      font-size: 0.9rem;
+    }
+
+    li button:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
+    }
+
+    li button:active {
+      transform: translateY(2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="image-section"></div>
+    <div class="todo-section">
+      <h1>Todo List</h1>
+      <div class="input-group">
+        <input type="text" placeholder="Enter something..." id="input" />
+        <button id="button">Add</button>
+      </div>
+      <ul id="list"></ul>
+    </div>
+  </div>
+
+  <script>
+    let inputEle = document.getElementById("input");
+    let buttonEle = document.getElementById("button");
+    let listEle = document.getElementById("list");
+
+    buttonEle.addEventListener("click", () => {
+      if (inputEle.value !== "") {
+        let liEle = document.createElement("li");
+        liEle.textContent = inputEle.value;
+
+        let delButton = document.createElement("button");
+        delButton.textContent = "Delete";
+        liEle.appendChild(delButton);
+
+        delButton.addEventListener("click", () => {
+          liEle.classList.add("deleting");
+          setTimeout(() => {
+            liEle.remove();
+          }, 200);  // Delay removal for animation
+        });
+
+        listEle.appendChild(liEle);
+        inputEle.value = "";
+      }
+    });
+  </script>
+</body>
+</html>
